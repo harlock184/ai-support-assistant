@@ -12,6 +12,8 @@ from dotenv import load_dotenv
 # pyrefly: ignore [missing-import]
 from openai import OpenAI
 
+from safety import es_entrada_adversarial, registrar_intento, respuesta_segura
+
 
 # Resolvemos rutas relativas al archivo del script (no al cwd) para que el
 # comando funcione igual desde cualquier directorio del proyecto.
@@ -188,6 +190,15 @@ def obtener_pregunta_cli() -> str:
 def main() -> int:
     api_key = cargar_api_key()
     pregunta = obtener_pregunta_cli()
+
+    # Compuerta de seguridad ANTES de construir el prompt o llamar a la API:
+    # bloquear localmente nos ahorra tokens, evita exponer al modelo al texto
+    # sospechoso y deja un registro auditable del intento.
+    adversarial, patron = es_entrada_adversarial(pregunta)
+    if adversarial:
+        registrar_intento(pregunta, patron)
+        print(json.dumps(respuesta_segura(), indent=2, ensure_ascii=False))
+        return 0
 
     prompt = construir_prompt(pregunta)
     respuesta, latency_ms = llamar_openai(prompt, api_key)
