@@ -1,1 +1,2 @@
 {"timestamp": "2026-05-18T09:55:56+00:00", "evento": "entrada_adversarial_bloqueada", "patron_detectado": "ignora (todas |las )?(tus )?instrucciones", "input_hash": "78dc99073e623711a66865f33c77fb703bd5e5fadec9d7207ac86ad06616f2c7"}
+{"timestamp": "2026-05-18T10:01:40+00:00", "evento": "entrada_adversarial_bloqueada", "patron_detectado": "ignora (todas |las )?(tus )?instrucciones", "input_hash": "d48b3a93d8c7c632b28389451a748667e3f83c56677f2fbb02457f766c4a2017"}
